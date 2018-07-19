@@ -1,7 +1,7 @@
 # how to run this project
 
 
-## you will probably need
+## you will --probably-- definitely need
 * maven
 * java runtime environment
 * postman (or equivalent)
