@@ -14,7 +14,7 @@ import com.springboot.campspot.model.CampsiteRequest;
 import com.springboot.campspot.model.Campsites;
 import com.springboot.campspot.model.Reservations;
 import com.springboot.campspot.model.SearchParameters;
-import com.springboot.campspot.service.CampspotService;
+import com.springboot.campspot.service.impl.CampspotService;
 
 @SpringBootTest
 public class CampspotServiceMethodTests {
@@ -66,17 +66,15 @@ public class CampspotServiceMethodTests {
 		CampsiteRequest request = new CampsiteRequest(search, csList, resList);
 
 		CampspotService csSvc = new CampspotService();
-		List<String> result = csSvc.getAvailableCampsites(request);
+		List<String> result = csSvc.getAvailableCampsites(request, 1);
 
 		assertEquals(3, result.size());
 		assertTrue(result.contains("Comfy Cabin"));
 		assertTrue(result.contains("Rickety Cabin"));
 		assertTrue(result.contains("Cabin in the Woods"));
-		
+
 		assertFalse(result.contains("Cozy Cabin"));
 		assertFalse(result.contains("Rustic Cabin"));
-
-
 
 	}
 
