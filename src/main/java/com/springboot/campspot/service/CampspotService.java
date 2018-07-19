@@ -2,6 +2,7 @@ package com.springboot.campspot.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,13 +42,34 @@ public class CampspotService {
 
 		// loop through each reservation and pull out the dates
 		// then compare against searchStartDate and searchEndDate
-		for (List<Reservations> res : existingReservations) {
+		for (List<Reservations> resList : existingReservations) {
+
+			resList.add(new Reservations(resList.get(0).getCampsiteId(), request.getSearch().getStartDate(),
+					request.getSearch().getEndDate()));
 
 			// flatten start and end date of all reservation per camp site id into a list of
 			// dates
-			Set<DateTime> realDates = res.stream().flatMap(
+			List<DateTime> resDateList = resList.stream().flatMap(
 					r -> Stream.of(formatter.parseDateTime(r.getStartDate()), formatter.parseDateTime(r.getEndDate())))
-					.collect(Collectors.toSet());
+					.collect(Collectors.toList());
+
+			Collections.sort(resDateList);
+
+			int startDateIndex = resDateList.indexOf(formatter.parseDateTime(request.getSearch().getStartDate()));
+			int endDateIndex = resDateList.indexOf(formatter.parseDateTime(request.getSearch().getEndDate()));
+
+			
+			if (startDateIndex == 0) {
+				resDateList = resDateList.subList(0, 3);
+			} else if (endDateIndex == resDateList.size() - 1) {
+				resDateList = resDateList.subList(resDateList.size() - 3, resDateList.size());
+			} else {
+				resDateList = resDateList.subList(startDateIndex - 1, endDateIndex + 2);
+			}
+			
+			logger.info("LIST!!!!!");
+			logger.info(resDateList.toString());
+			
 
 			// add 06/03 and 06/07 (1 day less than 6/4 and 1 day more than 6/6) to a list
 			Set<DateTime> blackListedDates = populateBlackListedDates(request);
@@ -56,8 +78,8 @@ public class CampspotService {
 			// then the campsiteId is filtered out from allCampIds
 			// currently doesn't have the flexibility to deal with 2+ day gap rules.
 			for (DateTime dt : blackListedDates) {
-				if (realDates.contains(dt)) {
-					availableCampIds.remove(res.get(0).getCampsiteId());
+				if (resDateList.contains(dt)) {
+					availableCampIds.remove(resList.get(0).getCampsiteId());
 				}
 			}
 		}
@@ -81,13 +103,13 @@ public class CampspotService {
 	private Set<DateTime> populateBlackListedDates(CampsiteRequest request) {
 		Set<DateTime> blackListedDates = new HashSet<>();
 
-		DateTime oneDayBeforeStartDate = formatter.parseDateTime(request.getSearch().getStartDate());
-		oneDayBeforeStartDate = oneDayBeforeStartDate.minusDays(1);
-		blackListedDates.add(oneDayBeforeStartDate);
+		DateTime twoDaysBeforeStartDate = formatter.parseDateTime(request.getSearch().getStartDate());
+		twoDaysBeforeStartDate = twoDaysBeforeStartDate.minusDays(2);
+		blackListedDates.add(twoDaysBeforeStartDate);
 
-		DateTime oneDayAfterEndDate = formatter.parseDateTime(request.getSearch().getEndDate());
-		oneDayAfterEndDate = oneDayAfterEndDate.plusDays(1);
-		blackListedDates.add(oneDayAfterEndDate);
+		DateTime twoDaysAfterEndDate = formatter.parseDateTime(request.getSearch().getEndDate());
+		twoDaysAfterEndDate = twoDaysAfterEndDate.plusDays(2);
+		blackListedDates.add(twoDaysAfterEndDate);
 
 		return blackListedDates;
 	}
