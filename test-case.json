@@ -26,20 +26,13 @@
     }
   ],
   "reservations": [
-  	// cozy cabin
     {"campsiteId": 1, "startDate": "2018-06-01", "endDate": "2018-06-03"},
     {"campsiteId": 1, "startDate": "2018-06-08", "endDate": "2018-06-10"},
-    
-    // comfy cabin
     {"campsiteId": 2, "startDate": "2018-06-01", "endDate": "2018-06-01"},
     {"campsiteId": 2, "startDate": "2018-06-02", "endDate": "2018-06-03"},
     {"campsiteId": 2, "startDate": "2018-06-07", "endDate": "2018-06-09"},
-    
-    // rustic cabin
     {"campsiteId": 3, "startDate": "2018-06-01", "endDate": "2018-06-02"},
     {"campsiteId": 3, "startDate": "2018-06-08", "endDate": "2018-06-09"},
-    
-    // rickety cabin
     {"campsiteId": 4, "startDate": "2018-06-07", "endDate": "2018-06-10"}
   ]
 }
