@@ -68,12 +68,15 @@ public class CampspotServiceMethodTests {
 		CampspotService csSvc = new CampspotService();
 		List<String> result = csSvc.getAvailableCampsites(request);
 
-		assertEquals(2, result.size());
-		assertTrue(result.contains("Rustic Cabin"));
+		assertEquals(3, result.size());
+		assertTrue(result.contains("Comfy Cabin"));
+		assertTrue(result.contains("Rickety Cabin"));
 		assertTrue(result.contains("Cabin in the Woods"));
-		assertFalse(result.contains("Comfy Cabin"));
+		
 		assertFalse(result.contains("Cozy Cabin"));
-		assertFalse(result.contains("Rickety Cabin"));
+		assertFalse(result.contains("Rustic Cabin"));
+
+
 
 	}
 
