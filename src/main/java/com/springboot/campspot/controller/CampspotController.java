@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.campspot.model.CampsiteRequest;
+import com.springboot.campspot.model.CampsiteResponse;
 import com.springboot.campspot.service.impl.CampspotService;
 
 @RestController
@@ -21,10 +22,12 @@ public class CampspotController {
 	CampspotService csService;
 
 	@PostMapping("/getAvailableCamps")
-	public List<String> getAvailableCampsites(@RequestBody CampsiteRequest request) {
+	public CampsiteResponse getAvailableCampsites(@RequestBody CampsiteRequest request) {
 		logger.info("hit controller, at /getAvailableCamps endpoint!");
 		logger.info("calling campspotService.getAvailableCampsites()");
 		int gapDay = 1;
-		return csService.getAvailableCampsites(request, gapDay);
+		List<String> listOfCampsiteNames = csService.getAvailableCampsites(request, gapDay);
+		
+		return new CampsiteResponse(listOfCampsiteNames);
 	}
 }
