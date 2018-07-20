@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,7 +15,7 @@ import com.springboot.campspot.model.CampsiteRequest;
 import com.springboot.campspot.model.Campsites;
 import com.springboot.campspot.model.Reservations;
 import com.springboot.campspot.model.SearchParameters;
-import com.springboot.campspot.service.impl.CampspotService;
+import com.springboot.campspot.service.impl.CampspotServiceImpl;
 
 @SpringBootTest
 public class CampspotServiceMethodTests {
@@ -65,8 +66,8 @@ public class CampspotServiceMethodTests {
 
 		CampsiteRequest request = new CampsiteRequest(search, csList, resList);
 
-		CampspotService csSvc = new CampspotService();
-		List<String> result = csSvc.getAvailableCampsites(request, 1);
+		CampspotServiceImpl csSvc = new CampspotServiceImpl();
+		Collection<String> result = csSvc.getAvailableCampsites(request, 1);
 
 		assertEquals(3, result.size());
 		assertTrue(result.contains("Comfy Cabin"));

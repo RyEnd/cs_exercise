@@ -1,28 +1,28 @@
 package com.springboot.campspot.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CampsiteResponse {
 
 	@JsonProperty
-	private List<String> campsiteNames;
+	private Collection<String> campsiteNames;
 
 	public CampsiteResponse() {
 		super();
 	}
 
-	public CampsiteResponse(List<String> campsiteNames) {
+	public CampsiteResponse(Collection<String> campsiteNames) {
 		super();
 		this.campsiteNames = campsiteNames;
 	}
 
-	public List<String> getCampsiteNames() {
+	public Collection<String> getCampsiteNames() {
 		return campsiteNames;
 	}
 
-	public void setCampsiteNames(List<String> campsiteNames) {
+	public void setCampsiteNames(Collection<String> campsiteNames) {
 		this.campsiteNames = campsiteNames;
 	}
 
